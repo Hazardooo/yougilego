@@ -25,7 +25,7 @@ type ProjectResponse struct {
 	Users     map[string]string `json:"users"`
 }
 
-func (projService *YGProjectService) SetBugTrackerProject(admins []string) (err error) {
+func (projService *YGProjectService) SetProject(admins []string) (err error) {
 	url := "https://ru.yougile.com/api-v2/projects"
 	payload := CreateProject{
 		Title: projService.Config.BugTruckerProjectName,
@@ -62,7 +62,7 @@ func (projService *YGProjectService) GetProjeсts() (err error, projects ListRes
 	return
 }
 
-func (projService *YGProjectService) CheckBugTrackerProject(projects ListResponse[ProjectResponse]) bool {
+func (projService *YGProjectService) CheckProject(projects ListResponse[ProjectResponse]) bool {
 	for _, project := range projects.Content {
 		if project.Title == projService.Config.BugTruckerProjectName {
 			projService.BugTruckerProjectId = project.Id
