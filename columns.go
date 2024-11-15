@@ -71,12 +71,12 @@ func (columnService *YGColumnService) GetColumnById(columnId string) (err error,
 func (columnService *YGColumnService) EditColumn(columnId string, editColumnRequest EditColumnRequest) (err error, response IDResponse) {
 	url := "https://ru.yougile.com/api-v2/columns/" + columnId
 	payloadByte, _ := json.Marshal(editColumnRequest)
-	req, _ := http.NewRequest("POST", url, strings.NewReader(string(payloadByte)))
+	req, _ := http.NewRequest("PUT", url, strings.NewReader(string(payloadByte)))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", columnService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetProjectById StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("EditColumn StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
