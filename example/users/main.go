@@ -36,7 +36,6 @@ func main() {
 	userService := yougilego.YGUsersService{Key: key}
 	err, usersList := userService.GetUsers()
 	if err != nil {
-		log.Println(err)
 		return
 	}
 	fmt.Println(usersList)

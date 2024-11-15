@@ -9,3 +9,7 @@ type ListResponse[T any] struct {
 	} `json:"paging"`
 	Content []T `json:"content"`
 }
+
+type IDResponse struct {
+	Id string `json:"id"`
+}
