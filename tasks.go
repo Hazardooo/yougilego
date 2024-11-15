@@ -8,8 +8,25 @@ import (
 )
 
 type YGTaskService struct {
-	YGEngine `json:"YGEngine"`
-	Column   *YGColumnService `json:"Column"`
+	Key string `json:"key"`
+
+	Column *YGColumnService `json:"Column"`
+}
+
+func (taskService *YGTaskService) UseKey() string {
+	return fmt.Sprintf("Bearer %s", taskService.Key)
+}
+
+func (taskService *YGTaskService) GetTasks() (err error, tasks ListResponse[TaskResponse]) {
+	url := fmt.Sprintf("https://ru.yougile.com/api-v2/tasks?columnId=%s", taskService.Column.BugTrackerColumnID)
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Authorization", taskService.UseKey())
+	res, _ := http.DefaultClient.Do(req)
+	defer res.Body.Close()
+	body, _ := io.ReadAll(res.Body)
+	json.Unmarshal(body, &tasks)
+	return
 }
 
 type CreateTask struct {
@@ -90,16 +107,4 @@ type TaskResponse struct {
 		Timestamp int64 `json:"timestamp"`
 		Since     int   `json:"since"`
 	} `json:"timer"`
-}
-
-func (taskService *YGTaskService) GetTasks() (err error, tasks ListResponse[TaskResponse]) {
-	url := fmt.Sprintf("https://ru.yougile.com/api-v2/tasks?columnId=%s", taskService.Column.BugTrackerColumnID)
-	req, _ := http.NewRequest("GET", url, nil)
-	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("Authorization", taskService.UseKey())
-	res, _ := http.DefaultClient.Do(req)
-	defer res.Body.Close()
-	body, _ := io.ReadAll(res.Body)
-	json.Unmarshal(body, &tasks)
-	return
 }
