@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/Hazardooo/yougilego"
 	"log"
 	"os"
@@ -14,6 +15,8 @@ func main() {
 	err, company := auth.GetListCompany("Hazardooo")
 	if err != nil {
 		log.Println(err)
+
+		return
 	}
 	myCompany := company.Content[0]
 	err, keysList := auth.GetKeysList(myCompany.Id)
@@ -31,5 +34,11 @@ func main() {
 	} else {
 		key = keysList[0].Key
 	}
-	auth.DeleteKey(key)
+	userService := yougilego.YGUsersService{Key: key}
+	err, usersList := userService.GetUsers()
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	fmt.Println(usersList)
 }
