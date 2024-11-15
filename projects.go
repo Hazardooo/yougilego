@@ -11,27 +11,26 @@ import (
 )
 
 type YGProjectService struct {
-	Key                 string `json:"key"`
-	BugTruckerProjectId string `json:"bugTruckerProjectId"`
+	Key string `json:"key"`
 }
 
 func (projService *YGProjectService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", projService.Key)
 }
 
-func (projService *YGProjectService) GetProjeсts() (err error, projects ListResponse[ProjectResponse]) {
+func (projService *YGProjectService) GetProjeсts() (err error, response ListResponse[ProjectResponse]) {
 	url := "https://ru.yougile.com/api-v2/projects"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", projService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetKeysList StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetProjeсts StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	json.Unmarshal(body, &projects)
+	json.Unmarshal(body, &response)
 	return
 }
 
@@ -43,7 +42,7 @@ func (projService *YGProjectService) CreateProject(createProjectRequest ProjectR
 	req.Header.Add("Authorization", projService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 201 {
-		err = errors.New(fmt.Sprintf("GetKeysList StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("CreateProject StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
@@ -59,7 +58,7 @@ func (projService *YGProjectService) GetProjectById(projectId string) (err error
 	req.Header.Add("Authorization", projService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetKeysList StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetProjectById StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
@@ -76,7 +75,7 @@ func (projService *YGProjectService) EditProject(projectId string, createProject
 	req.Header.Add("Authorization", projService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetKeysList StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("EditProject StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
