@@ -9,16 +9,14 @@ import (
 
 type YGTaskService struct {
 	Key string `json:"key"`
-
-	Column *YGColumnService `json:"Column"`
 }
 
 func (taskService *YGTaskService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", taskService.Key)
 }
 
-func (taskService *YGTaskService) GetTasks() (err error, tasks ListResponse[TaskResponse]) {
-	url := fmt.Sprintf("https://ru.yougile.com/api-v2/tasks?columnId=%s", taskService.Column.BugTrackerColumnID)
+func (taskService *YGTaskService) GetTasks(columnId string) (err error, tasks ListResponse[TaskResponse]) {
+	url := fmt.Sprintf("https://ru.yougile.com/api-v2/tasks?columnId=%s", columnId)
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", taskService.UseKey())
