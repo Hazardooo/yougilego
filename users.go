@@ -34,13 +34,9 @@ func (userService *YGUsersService) GetUsers() (err error, response ListResponse[
 	return
 }
 
-func (userService *YGUsersService) InviteUser(email string, isAdmin bool) (err error, response IDResponse) {
+func (userService *YGUsersService) InviteUser(request SendInviteRequest) (err error, response IDResponse) {
 	url := "https://ru.yougile.com/api-v2/users"
-	payload := SendInviteRequest{
-		Email:   email,
-		IsAdmin: isAdmin,
-	}
-	payloadByte, _ := json.Marshal(payload)
+	payloadByte, _ := json.Marshal(request)
 	req, _ := http.NewRequest("POST", url, strings.NewReader(string(payloadByte)))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", userService.UseKey())

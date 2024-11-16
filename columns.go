@@ -19,14 +19,14 @@ func (columnService *YGColumnService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", columnService.Key)
 }
 
-func (columnService *YGColumnService) GetColumn() (err error, columns ListResponse[ColumnResponse]) {
+func (columnService *YGColumnService) GetColumnList() (err error, columns ListResponse[ColumnResponse]) {
 	url := "https://ru.yougile.com/api-v2/columns"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", columnService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetColumn StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetColumnList StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()

@@ -18,14 +18,14 @@ func (projService *YGProjectService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", projService.Key)
 }
 
-func (projService *YGProjectService) GetProjeсts() (err error, response ListResponse[ProjectResponse]) {
+func (projService *YGProjectService) GetProjeсtList() (err error, response ListResponse[ProjectResponse]) {
 	url := "https://ru.yougile.com/api-v2/projects"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", projService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetProjeсts StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetProjeсtList StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()

@@ -19,8 +19,8 @@ func (statusTextStickerService *YGStatusTextStickerService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", statusTextStickerService.Key)
 }
 
-func (statusTextStickerService *YGStatusTextStickerService) GetStatusTextStickerById(stickerId string) (err error, response StatusTextStickerById) {
-	url := fmt.Sprintf("https://ru.yougile.com/api-v2/string-stickers/%s/states/stickerStateId", stickerId)
+func (statusTextStickerService *YGStatusTextStickerService) GetStatusTextStickerById(stickerId string, stickerStateId string) (err error, response StatusTextStickerById) {
+	url := fmt.Sprintf("https://ru.yougile.com/api-v2/string-stickers/%s/states/%s", stickerId, stickerStateId)
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", statusTextStickerService.UseKey())

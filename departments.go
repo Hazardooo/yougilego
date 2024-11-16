@@ -18,14 +18,14 @@ func (departService *YGDepartmentsService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", departService.Key)
 }
 
-func (departService *YGDepartmentsService) GetDepartmentsList() (err error, response ListResponse[DepartResponse]) {
+func (departService *YGDepartmentsService) GetDepartList() (err error, response ListResponse[DepartResponse]) {
 	url := "https://ru.yougile.com/api-v2/departments"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", departService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetDepartmentsList StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetDepartList StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
@@ -70,7 +70,7 @@ func (departService *YGDepartmentsService) GetDepartById(departId string) (err e
 func (departService *YGDepartmentsService) EditDepart(departId string, editDepartRequest EditDepartRequest) (err error, response IDResponse) {
 	url := "https://ru.yougile.com/api-v2/departments/" + departId
 	payloadByte, _ := json.Marshal(editDepartRequest)
-	req, _ := http.NewRequest("POST", url, strings.NewReader(string(payloadByte)))
+	req, _ := http.NewRequest("PUT", url, strings.NewReader(string(payloadByte)))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", departService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
