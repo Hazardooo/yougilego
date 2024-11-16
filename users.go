@@ -18,7 +18,7 @@ func (userService *YGUsersService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", userService.Key)
 }
 
-func (userService *YGUsersService) GetUsers() (err error, users ListResponse[UsersResponse]) {
+func (userService *YGUsersService) GetUsers() (err error, response ListResponse[UsersResponse]) {
 	url := "https://ru.yougile.com/api-v2/users"
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
@@ -30,11 +30,11 @@ func (userService *YGUsersService) GetUsers() (err error, users ListResponse[Use
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	json.Unmarshal(body, &users)
+	json.Unmarshal(body, &response)
 	return
 }
 
-func (userService *YGUsersService) InviteUser(email string, isAdmin bool) (err error, userId IDResponse) {
+func (userService *YGUsersService) InviteUser(email string, isAdmin bool) (err error, response IDResponse) {
 	url := "https://ru.yougile.com/api-v2/users"
 	payload := SendInviteRequest{
 		Email:   email,
@@ -51,11 +51,11 @@ func (userService *YGUsersService) InviteUser(email string, isAdmin bool) (err e
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	json.Unmarshal(body, &userId)
+	json.Unmarshal(body, &response)
 	return
 }
 
-func (userService *YGUsersService) GetUserById(userId string) (err error, user UsersResponse) {
+func (userService *YGUsersService) GetUserById(userId string) (err error, response UsersResponse) {
 	url := "https://ru.yougile.com/api-v2/users/" + userId
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
@@ -67,7 +67,7 @@ func (userService *YGUsersService) GetUserById(userId string) (err error, user U
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	json.Unmarshal(body, &user)
+	json.Unmarshal(body, &response)
 	return
 }
 
@@ -114,8 +114,4 @@ type UsersResponse struct {
 type SendInviteRequest struct {
 	Email   string `json:"email"`
 	IsAdmin bool   `json:"isAdmin"`
-}
-
-type IDResponse struct {
-	Id string `json:"id"`
 }

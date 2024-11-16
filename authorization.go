@@ -16,7 +16,7 @@ type YGAuthService struct {
 }
 
 // GetListCompany This method is designed to get a list of companies
-func (authService *YGAuthService) GetListCompany(companyName string) (err error, companyList ListResponse[getCompanyResponse]) {
+func (authService *YGAuthService) GetListCompany(companyName string) (err error, response ListResponse[getCompanyResponse]) {
 	url := "https://ru.yougile.com/api-v2/auth/companies"
 	getListCompanyRequest := getCompanyListRequest{
 		Login:    authService.Login,
@@ -29,16 +29,16 @@ func (authService *YGAuthService) GetListCompany(companyName string) (err error,
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
 		err = errors.New(fmt.Sprintf("GetListCompany StatusCode: %s", strconv.Itoa(res.StatusCode)))
-		return err, companyList
+		return err, response
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	json.Unmarshal(body, &companyList)
+	json.Unmarshal(body, &response)
 	return
 }
 
 // GetKeysList This method is designed to get a list of keys
-func (authService *YGAuthService) GetKeysList(companyId string) (err error, keysList []getKeysListResponse) {
+func (authService *YGAuthService) GetKeysList(companyId string) (err error, response []getKeysListResponse) {
 	url := "https://ru.yougile.com/api-v2/auth/keys/get"
 	payload := AuthRequest{
 		Login:     authService.Login,
@@ -51,16 +51,16 @@ func (authService *YGAuthService) GetKeysList(companyId string) (err error, keys
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
 		err = errors.New(fmt.Sprintf("GetKeysList StatusCode: %s", strconv.Itoa(res.StatusCode)))
-		return err, keysList
+		return err, response
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	json.Unmarshal(body, &keysList)
+	json.Unmarshal(body, &response)
 	return
 }
 
 // CreateKey This method is designed to create a company Key
-func (authService *YGAuthService) CreateKey(companyId string) (err error, key string) {
+func (authService *YGAuthService) CreateKey(companyId string) (err error, response string) {
 	url := "https://ru.yougile.com/api-v2/auth/keys"
 	payload := AuthRequest{
 		Login:     authService.Login,
@@ -73,19 +73,19 @@ func (authService *YGAuthService) CreateKey(companyId string) (err error, key st
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 201 {
 		err = errors.New(fmt.Sprintf("CreateKey StatusCode: %s", strconv.Itoa(res.StatusCode)))
-		return err, key
+		return err, response
 	}
 	defer res.Body.Close()
 	body, _ := io.ReadAll(res.Body)
-	response := createKeyResponse{}
-	json.Unmarshal(body, &response)
-	key = response.Key
+	keyResponse := createKeyResponse{}
+	json.Unmarshal(body, &keyResponse)
+	response = keyResponse.Key
 	return
 }
 
 // DeleteKey This method is designed to delete the company Key
-func (authService *YGAuthService) DeleteKey(key string) {
-	url := "https://ru.yougile.com/api-v2/auth/keys/" + key
+func (authService *YGAuthService) DeleteKey(response string) {
+	url := "https://ru.yougile.com/api-v2/auth/keys/" + response
 	req, _ := http.NewRequest("DELETE", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	res, _ := http.DefaultClient.Do(req)

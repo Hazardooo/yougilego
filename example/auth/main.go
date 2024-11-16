@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/Hazardooo/yougilego"
 	"log"
 	"os"
@@ -31,5 +32,6 @@ func main() {
 	} else {
 		key = keysList[0].Key
 	}
-	auth.DeleteKey(key)
+	fmt.Println(key)
+	//auth.DeleteKey(key)
 }
