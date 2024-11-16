@@ -35,7 +35,7 @@ func (eventSubscribeService *YGEventSubscribeService) CreateSubscribe(createSubs
 	return
 }
 
-func (eventSubscribeService *YGEventSubscribeService) GetSubscribeList(includeDeleted bool) (err error, response SubscribeResponse) {
+func (eventSubscribeService *YGEventSubscribeService) GetSubscribeList(includeDeleted bool) (err error, response []SubscribeResponse) {
 	url := fmt.Sprintf("https://ru.yougile.com/api-v2/webhooks?includeDeleted=%b", includeDeleted)
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")

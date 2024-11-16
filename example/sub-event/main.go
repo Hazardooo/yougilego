@@ -15,7 +15,9 @@ func main() {
 	err, company := auth.GetListCompany("Hazardooo")
 	if err != nil {
 		log.Println(err)
+		return
 	}
+	fmt.Println(company)
 	myCompany := company.Content[0]
 	err, keysList := auth.GetKeysList(myCompany.Id)
 	if err != nil {
@@ -33,5 +35,24 @@ func main() {
 		key = keysList[0].Key
 	}
 	fmt.Println(key)
-	//auth.DeleteKey(key)
+	eventSubscribeService := yougilego.YGEventSubscribeService{Key: key}
+	err, eventList := eventSubscribeService.GetSubscribeList(false)
+	if err != nil {
+		log.Println(err)
+		return
+	}
+	var event = yougilego.SubscribeResponse{}
+	if len(eventList) != 0 {
+		event = eventList[0]
+	} else {
+		err, _ = eventSubscribeService.CreateSubscribe(yougilego.CreateSubs{
+			Url:   "https://webhook.site/d19ddaf8-36d5-4dcd-acf1-51b91b6dd375",
+			Event: "task-created",
+		})
+		if err != nil {
+			log.Println(err)
+			return
+		}
+	}
+	fmt.Println(event)
 }
