@@ -70,7 +70,7 @@ func (departService *YGDepartmentsService) GetDepartById(departId string) (err e
 func (departService *YGDepartmentsService) EditDepart(departId string, editDepartRequest EditDepartRequest) (err error, response IDResponse) {
 	url := "https://ru.yougile.com/api-v2/departments/" + departId
 	payloadByte, _ := json.Marshal(editDepartRequest)
-	req, _ := http.NewRequest("POST", url, strings.NewReader(string(payloadByte)))
+	req, _ := http.NewRequest("PUT", url, strings.NewReader(string(payloadByte)))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", departService.UseKey())
 	res, _ := http.DefaultClient.Do(req)

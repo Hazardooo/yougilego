@@ -36,7 +36,7 @@ func main() {
 	projectService := yougilego.YGProjectService{
 		Key: key,
 	}
-	err, projectsList := projectService.GetProjeсts()
+	err, projectsList := projectService.GetProjeсtList()
 	if err != nil {
 		log.Println(err)
 		return
