@@ -76,7 +76,7 @@ func (taskService *YGTaskService) EditTask(taskId string, editTaskRequest EditTa
 	req.Header.Add("Authorization", taskService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("EditColumn StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("EditTask StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
@@ -92,7 +92,7 @@ func (taskService *YGTaskService) GetUserListTaskChat(taskId string) (err error,
 	req.Header.Add("Authorization", taskService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetColumn StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetUserListTaskChat StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
@@ -109,7 +109,7 @@ func (taskService *YGTaskService) EditUserListTaskChat(taskId string, editReques
 	req.Header.Add("Authorization", taskService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetColumn StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("EditUserListTaskChat StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()

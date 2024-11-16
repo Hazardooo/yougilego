@@ -58,7 +58,7 @@ func (boardService *YGBoardsService) GetBoardById(boardId string) (err error, re
 	req.Header.Add("Authorization", boardService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetProjectById StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetBoardById StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
@@ -75,7 +75,7 @@ func (boardService *YGBoardsService) EditBoard(boardId string, editBoardRequest 
 	req.Header.Add("Authorization", boardService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("EditProject StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("EditBoard StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()

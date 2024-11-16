@@ -51,14 +51,14 @@ func (departService *YGDepartmentsService) CreateDepart(createDepartRequest Depa
 	return
 }
 
-func (departService *YGDepartmentsService) GetDepartByIDd(departId string) (err error, response DepartResponse) {
+func (departService *YGDepartmentsService) GetDepartById(departId string) (err error, response DepartResponse) {
 	url := "https://ru.yougile.com/api-v2/departments/" + departId
 	req, _ := http.NewRequest("GET", url, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", departService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetDepartByIDd StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("GetDepartById StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
@@ -75,7 +75,7 @@ func (departService *YGDepartmentsService) EditDepart(departId string, editDepar
 	req.Header.Add("Authorization", departService.UseKey())
 	res, _ := http.DefaultClient.Do(req)
 	if res.StatusCode != 200 {
-		err = errors.New(fmt.Sprintf("GetDepartByIDd StatusCode: %s", strconv.Itoa(res.StatusCode)))
+		err = errors.New(fmt.Sprintf("EditDepart StatusCode: %s", strconv.Itoa(res.StatusCode)))
 		return
 	}
 	defer res.Body.Close()
