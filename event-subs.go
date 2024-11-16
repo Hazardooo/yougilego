@@ -18,9 +18,9 @@ func (eventSubscribeService *YGEventSubscribeService) UseKey() string {
 	return fmt.Sprintf("Bearer %s", eventSubscribeService.Key)
 }
 
-func (eventSubscribeService *YGEventSubscribeService) CreateSubscribe(taskRequest CreateTask) (err error, response IDResponse) {
+func (eventSubscribeService *YGEventSubscribeService) CreateSubscribe(createSubsRequest CreateSubs) (err error, response IDResponse) {
 	url := "https://ru.yougile.com/api-v2/webhooks"
-	payloadByte, _ := json.Marshal(taskRequest)
+	payloadByte, _ := json.Marshal(createSubsRequest)
 	req, _ := http.NewRequest("POST", url, strings.NewReader(string(payloadByte)))
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", eventSubscribeService.UseKey())
